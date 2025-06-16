@@ -1,5 +1,4 @@
 function SearchBar({value, onChange}) {
-    console.log(value)
     return(
         <input
         type="text"
