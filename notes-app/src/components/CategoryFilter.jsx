@@ -8,10 +8,7 @@ function CategoryFilter({ currentFilter, handleCategory }){
                 <button
                     key={category}
                     onClick={() => handleCategory(category)}
-                    style={{
-                        margin:'0.25rem',
-                        fontWeight: currentFilter === category ? 'bold' : 'normal'
-                    }}
+                    className={`px-3 py-1 rounded-full border ${currentFilter === category ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
                     >
                         {category}
                 </button>

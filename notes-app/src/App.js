@@ -52,7 +52,7 @@ function App() {
         category={category}
         handleInput={handleInput}
         handleCategory={handleCategory}
-        onSubmit={onSubmit}  
+        onSubmit={onSubmit}
       />
       {filteredNotes.map((note) => (
         <NoteItem

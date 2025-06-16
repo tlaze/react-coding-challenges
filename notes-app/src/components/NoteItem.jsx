@@ -1,25 +1,27 @@
 import React from 'react'
 
 function NoteItem({ note, deleteNote }){
+    const categoryColors = {
+        Work: 'bg-blue-100 border-blue-500 text-blue-800',
+        Personal: 'bg-pink-100 border-pink-500 text-pink-800',
+        Ideas: 'bg-yellow-100 border-yellow-500 text-yellow-800',
+        Other: 'bg-gray-100 border-gray-500 text-gray-800',
+    };
+
+    const categoryClass = categoryColors[note.category] || 'bg-white';
     return(
-        <div style={styles.card}
-            key={note.id}>
-            <strong>Category: </strong>{note.category}
-            <br></br>
-            Note: {note.text}
-            <br></br>
-            <button onClick={() => deleteNote(note.id)}>Delete</button>
+        <div
+            className={`border-l-4 p-4 my-2 rounded shadow ${categoryClass}`}
+            key={note.id}
+            >
+            <h3 className="text-lg font-semibold">{note.text}</h3>
+            <p className="text-sm italic">{note.category}</p>
+            <button 
+                className="text-red-500 hover:underline mt-1 text-2m"
+                onClick={() => deleteNote(note.id)}>
+                Delete
+            </button>
         </div>
     )
-}
-
-const styles ={
-    card: {
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '1rem',
-    marginBottom: '1rem',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  },
 }
 export default NoteItem;
