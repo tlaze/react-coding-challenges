@@ -67,13 +67,14 @@ function App() {
       ) : error? (
         <p>{error}</p>
       ) : filteredUsers.length > 0 ? (
-        <ul>
-          {filteredUsers.map(user => (
-            <li key={user.id}>
-              <strong>{user.name}</strong> - {user.email} - {user.address.city}
-            </li>
-          ))}
-        </ul>
+        filteredUsers.map(user => (
+          <UserCard
+            key={user.id}
+            name={user.name}
+            email={user.email}
+            city={user.address.city}
+          />
+        ))
       ) : (
         <p>No users found.</p>
       )}
