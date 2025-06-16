@@ -8,6 +8,7 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [input, setInput] = useState('');
   const [category, setCategory] = useState('');
+  const [filter, setFilter] = useState('All');
 
   const handleInput = (e) => {
     setInput(e.target.value)
@@ -34,6 +35,11 @@ function App() {
     console.log(input)
     console.log(category)
   }
+
+  const filteredNotes = notes.filter(note => 
+    filter === 'All' ? true : note.category === filter
+  );
+
   return (
     <div className="App">
       <NoteInput
@@ -44,14 +50,14 @@ function App() {
         onSubmit={onSubmit}  
       />
       <ul>
-        {notes.map((note) => (
+        {filteredNotes.map((note) => (
           <NoteItem
             key={note.id}
             note={note}
           />
         ))}
       </ul>
-      <CategoryFilter></CategoryFilter>
+      <CategoryFilter currentFilter={filter} handleCategory={setFilter}/>
     </div>
   );
 }
