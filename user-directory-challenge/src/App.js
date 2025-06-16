@@ -1,5 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import SearchBar from './components/SearchBar';
+import UserCard from './components/UserCard';
 
 
 function App() {
@@ -8,10 +10,6 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
 
   // //Load users via Javascript promises
   // useEffect(() => {
@@ -50,6 +48,9 @@ function App() {
     fetchUsers()
     },[]);
 
+    const filteredUsers = users.filter(user =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
   return (
     <div className="App">
@@ -57,18 +58,24 @@ function App() {
       <p>
         Built with React, this app fetches user data from a public API and displays it in a searchable directory. It uses React hooks like <code>useState</code> and <code>useEffect</code> for state management and data fetching, with components structured for modularity and reusability.
       </p>
+      <SearchBar 
+        value={searchTerm} 
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       {isLoading ? (
         <p>Loading users...</p>
       ) : error? (
         <p>{error}</p>
-      ) : (
+      ) : filteredUsers.length > 0 ? (
         <ul>
-          {users.map(user => (
+          {filteredUsers.map(user => (
             <li key={user.id}>
               <strong>{user.name}</strong> - {user.email} - {user.address.city}
             </li>
           ))}
         </ul>
+      ) : (
+        <p>No users found.</p>
       )}
     </div>
   );
