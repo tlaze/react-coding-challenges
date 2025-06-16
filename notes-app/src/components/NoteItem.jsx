@@ -3,7 +3,9 @@ import React from 'react'
 function NoteItem({ note }){
     return(
         <li key={note.id}>
-            {note.text}
+            <strong>Category: </strong>{note.category}
+            <br></br>
+            Note: {note.text}
         </li>
     )
 }
