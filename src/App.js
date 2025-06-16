@@ -1,23 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>User Directory</h1>
+      <p>
+        Built with React, this app fetches user data from a public API and displays it in a searchable directory. It uses React hooks like <code>useState</code> and <code>useEffect</code> for state management and data fetching, with components structured for modularity and reusability.
+      </p>
     </div>
   );
 }
