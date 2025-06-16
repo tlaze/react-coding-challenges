@@ -7,7 +7,12 @@ function CategoryFilter({ currentFilter, handleCategory }){
             {categories.map((category) => (
                 <button
                     key={category}
-                    onClick={() => handleCategory(category)}>
+                    onClick={() => handleCategory(category)}
+                    style={{
+                        margin:'0.25rem',
+                        fontWeight: currentFilter === category ? 'bold' : 'normal'
+                    }}
+                    >
                         {category}
                 </button>
             ))}

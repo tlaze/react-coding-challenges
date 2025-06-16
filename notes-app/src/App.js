@@ -40,6 +40,11 @@ function App() {
     filter === 'All' ? true : note.category === filter
   );
 
+  const deleteNote = (id) => {
+    const filteredNotes = notes.filter(note => note.id !== id);
+    setNotes(filteredNotes)
+  }
+
   return (
     <div className="App">
       <NoteInput
@@ -54,6 +59,7 @@ function App() {
           <NoteItem
             key={note.id}
             note={note}
+            deleteNote={deleteNote}
           />
         ))}
       </ul>
