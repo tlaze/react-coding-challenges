@@ -57,6 +57,19 @@ function App() {
       <p>
         Built with React, this app fetches user data from a public API and displays it in a searchable directory. It uses React hooks like <code>useState</code> and <code>useEffect</code> for state management and data fetching, with components structured for modularity and reusability.
       </p>
+      {isLoading ? (
+        <p>Loading users...</p>
+      ) : error? (
+        <p>{error}</p>
+      ) : (
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>
+              <strong>{user.name}</strong> - {user.email} - {user.address.city}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
