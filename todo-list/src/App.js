@@ -1,11 +1,13 @@
 import './App.css';
 import {useState} from 'react';
+import TodoInput from './components/TodoInput';
+import TodoItem from './components/TodoItem';
 
 function App() {
   const [toDo, setTodo] = useState([]);
   const [text, setText] = useState('');
 
-  const handleInputChange = (e) => {
+    const handleInputChange = (e) => {
     console.log(e.target.value)
     setText(e.target.value)
   }
@@ -24,7 +26,8 @@ function App() {
 
     setTodo([...toDo, newTodo]);
     setText('')
-  }
+}
+
   // If the todo id matches, it will mark the todo as complete.
   const toggleComplete = (id) => {
     const updatedTodos = toDo.map(todo => 
@@ -39,25 +42,18 @@ function App() {
   }
   return (
     <div className="App">
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Add Todo"
-          type="text"
-          value={text}
-          onChange={handleInputChange}
-        />
-        <button
-        >Submit</button>
-      </form>
+      <TodoInput
+        text={text}
+        handleInputChange={handleInputChange}
+        onSubmit={handleSubmit}/>
       <ul>
         {toDo.map((todo) => (
-          <li key={todo.id}>
-            <span style={{textDecoration: todo.completed? 'line-through' : 'none'}}>
-              {todo.text}
-            </span>
-            <button onClick={() => toggleComplete(todo.id)}>Complete</button>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-          </li>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            toggleComplete={toggleComplete}
+            deleteTodo={deleteTodo}
+          />
         ))}
       </ul>
     </div>
