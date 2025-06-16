@@ -9,7 +9,6 @@ function App() {
   const [input, setInput] = useState('');
 
   const handleInput = (e) => {
-    console.log(e.target.value)
     setInput(e.target.value)
   }
 
@@ -34,7 +33,14 @@ function App() {
         handleInput={handleInput}
         onSubmit={onSubmit}  
       />
-      <NoteItem></NoteItem>
+      <ul>
+        {notes.map((note) => (
+          <NoteItem
+            key={note.id}
+            note={note}
+          />
+        ))}
+      </ul>
       <CategoryFilter></CategoryFilter>
     </div>
   );

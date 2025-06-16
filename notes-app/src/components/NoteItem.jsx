@@ -1,8 +1,10 @@
 import React from 'react'
 
-function NoteItem(){
+function NoteItem({ note }){
     return(
-        <p>NoteItem works</p>
+        <li key={note.id}>
+            {note.text}
+        </li>
     )
 }
 export default NoteItem;
