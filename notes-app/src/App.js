@@ -30,8 +30,8 @@ function App() {
     }
 
     setNotes([...notes, newNote])
-    setInput('')
     setCategory('')
+    setInput('')
     console.log(input)
     console.log(category)
   }
@@ -54,15 +54,13 @@ function App() {
         handleCategory={handleCategory}
         onSubmit={onSubmit}  
       />
-      <ul>
-        {filteredNotes.map((note) => (
-          <NoteItem
-            key={note.id}
-            note={note}
-            deleteNote={deleteNote}
-          />
-        ))}
-      </ul>
+      {filteredNotes.map((note) => (
+        <NoteItem
+          key={note.id}
+          note={note}
+          deleteNote={deleteNote}
+        />
+      ))}
       <CategoryFilter currentFilter={filter} handleCategory={setFilter}/>
     </div>
   );

@@ -1,12 +1,12 @@
 import React from 'react'
 
-function NoteInput( { text, category, handleInput, handleCategory, onSubmit }){
+function NoteInput( { input, category, handleInput, handleCategory, onSubmit }){
     return(
         <form onSubmit={onSubmit}>
             <input
                 placeholder="Enter new note"
-                text="text"
-                value={text}
+                type="text"
+                value={input}
                 onChange={handleInput}
                 ></input>
             <select value={category} onChange={handleCategory}>
