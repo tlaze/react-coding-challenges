@@ -25,7 +25,18 @@ function App() {
     setTodo([...toDo, newTodo]);
     setText('')
   }
+  // If the todo id matches, it will mark the todo as complete.
+  const toggleComplete = (id) => {
+    const updatedTodos = toDo.map(todo => 
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    )
+    setTodo(updatedTodos)
+  }
 
+  const deleteTodo = (id) => {
+    const filteredTodos = toDo.filter(todo => todo.id !== id);
+    setTodo(filteredTodos)
+  }
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -41,7 +52,11 @@ function App() {
       <ul>
         {toDo.map((todo) => (
           <li key={todo.id}>
-            {todo.text}
+            <span style={{textDecoration: todo.completed? 'line-through' : 'none'}}>
+              {todo.text}
+            </span>
+            <button onClick={() => toggleComplete(todo.id)}>Complete</button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
