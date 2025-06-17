@@ -42,11 +42,7 @@ Build a **Notes App** that allows users to create categorized notes, filter them
 
 ## 💡 Bonus (Optional)
 
-- Persist notes using `localStorage`
-- Allow editing existing notes
 - Color-code notes by category
-- Add animations or transitions
-- Add a modal to display or edit note details
 
 ---
 

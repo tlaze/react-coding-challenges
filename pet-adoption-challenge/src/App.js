@@ -54,6 +54,10 @@ function App() {
   }
   return (
     <div className="App">
+      <h1 className="text-2xl font-bold mb-6 text-center">
+      Pet Adoption Dashboard — Built with React, Tailwind CSS, and Local Storage<br />
+      Search for dog breeds, filter by adoption status, and save adopted pets across sessions.
+      </h1>
       <FilterBar
         value={input}
         onInputChange={(e) => setInput(e.target.value)}
