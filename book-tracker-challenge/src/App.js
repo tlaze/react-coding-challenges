@@ -11,6 +11,7 @@ function App() {
   const [error, setError] = useState("")
   const [books, setBooks] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [readStatus, setReadStatus] = useState("All")
 
   // Fetches book data from api. Sets book state to api data
   useEffect(() => {
@@ -44,6 +45,11 @@ function App() {
   // search input
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchInput.toLowerCase()))
+    .filter(book => {
+      if(readStatus === 'Read') return book.read;
+      if(readStatus === 'Not Read') return !book.read;
+      return true;
+    })
 
   // When user clicks on not read button it updates to read
   const addToReadList = (id) =>{
@@ -58,6 +64,10 @@ function App() {
       <SearchBar
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
+      />
+      <FilterBar
+      currentReadStatus={readStatus}
+      handleReadStatus={setReadStatus}
       />
 
       {isLoading ? (
@@ -81,7 +91,6 @@ function App() {
       )}
 
       <ProgressBar/>
-      <FilterBar/>
     </div>
   );
 }
