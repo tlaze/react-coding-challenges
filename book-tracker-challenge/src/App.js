@@ -10,6 +10,7 @@ function App() {
   const [error, setError] = useState("")
   const [books, setBooks] = useState([]);
 
+  // Fetches book data from api. Sets book state to api data
   useEffect(() => {
     const fetchData = async() => {
       try{
@@ -28,19 +29,29 @@ function App() {
     fetchData();
   }, [])
 
+  // Simple function to console the books after updates to state
   useEffect(()=>{
     console.log(books)
   },[books])
+
+  const filteredBooks = books.filter(book =>
+    book.title.toLowerCase()
+  )
   return (
     <div className="App">
 
       {isLoading ? (
-        <p>Loading...</p>
+        <p>Loading books...</p>
+      ): error ? (
+        <p>{error}</p>
+      ): filteredBooks.length > 0 ? (
+        filteredBooks.map(book =>
+          <BookCard/>
+        )
       ): (
-        <p>Loaded</p>
+        <p>No books found</p>
       )}
 
-      <BookCard/>
       <ProgressBar/>
       <FilterBar/>
     </div>
