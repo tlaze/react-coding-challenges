@@ -46,7 +46,12 @@ function App() {
         <p>{error}</p>
       ): filteredBooks.length > 0 ? (
         filteredBooks.map(book =>
-          <BookCard/>
+          <BookCard
+            key={book.id}
+            author={book.author_name}
+            title={book.title}
+            year_published={book.first_publish_year}
+            />
         )
       ): (
         <p>No books found</p>
