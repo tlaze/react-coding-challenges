@@ -40,12 +40,6 @@ function App() {
     fetchData();
   }, [])
 
-  // Simple function to console the books after updates to state
-  useEffect(()=>{
-    console.log(books)
-    console.log(searchInput)
-  },[books])
-
   // Each time books or search input changes the books get filtered based on the
   // search input
   const filteredBooks = books.filter(book =>
@@ -68,7 +62,10 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App text-center max-w-2xl mx-auto my-8 p-4 bg-gray-100 rounded-lg shadow">
+      <h1 className="text-3xl font-bold mb-2">Book Tracker App</h1>
+      <p className="text-gray-700"> Search and manage your reading list using this React app. Track whether you've read a book, filter by status, and monitor your progress. Built with React, Tailwind CSS, and local storage.
+      </p>
       <SearchBar
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
