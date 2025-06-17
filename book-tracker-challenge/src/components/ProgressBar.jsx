@@ -1,6 +1,7 @@
-function ProgressBar(){
+function ProgressBar({total, readCount}){
+    const percentage = total > 0 ? Math.round((readCount / total) * 100) : 0;
     return(
-        <div>Progress Bar Works</div>
+        <div>{readCount}/ {total} books read ({percentage}%) </div>
     )
 }
 export default ProgressBar

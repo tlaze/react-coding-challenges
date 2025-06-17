@@ -69,6 +69,10 @@ function App() {
       currentReadStatus={readStatus}
       handleReadStatus={setReadStatus}
       />
+      <ProgressBar
+        total={filteredBooks.length}
+        readCount={filteredBooks.filter(book=> book.read).length}
+      />
 
       {isLoading ? (
         <p>Loading books...</p>
@@ -89,8 +93,6 @@ function App() {
       ): (
         <p>No books found</p>
       )}
-
-      <ProgressBar/>
     </div>
   );
 }
