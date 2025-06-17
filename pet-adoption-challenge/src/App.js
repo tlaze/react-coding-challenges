@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
 
 function App() {
+  const [pets, setPets] = useState([])
+  const [petType, setPetType] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+
+    const fetchPets = async () => {
+      try{
+        const response = await fetch("https://dogapi.dog/api/v2/breeds");
+        const data = await response.json();
+        setPets(data)
+        console.log(data)
+      }
+      catch(err){
+        setError("Failed to load pets")
+        console.error("error:", err)
+      }
+      finally{
+        setIsLoading(false)
+      }
+    }
+    fetchPets()
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
 }
