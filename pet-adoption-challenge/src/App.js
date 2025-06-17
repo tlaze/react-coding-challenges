@@ -8,6 +8,7 @@ function App() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [adopted, isAdopted] = useState('All')
 
   useEffect(() => {
 
@@ -33,9 +34,13 @@ function App() {
     fetchPets()
   },[])
 
-  const filteredPets = pets.filter(pet => 
-    pet.attributes.name.toLowerCase().includes(input.toLowerCase())
-  )
+  const filteredPets = pets
+    .filter(pet => pet.attributes.name.toLowerCase().includes(input.toLowerCase()))
+    .filter(pet => {
+      if (adopted === 'Adopted') return pet.adopted;
+      if (adopted === 'Available') return !pet.adopted;
+      return true;
+    });
 
   const adopt = (id) => {
     const updatedPets = pets.map(pet =>
@@ -49,14 +54,31 @@ function App() {
         value={input}
         onInputChange={(e) => setInput(e.target.value)}
       />
+      <button
+        className={`px-3 py-1 rounded ${adopted === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        onClick={() => isAdopted('All')}
+      >All
+      </button>
+      <button
+        className={`px-3 py-1 rounded ${adopted === 'Available' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        onClick={() => isAdopted('Available')}
+      >Available
+      </button>
+      <button
+        className={`px-3 py-1 rounded ${adopted === 'Adopted' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        onClick={() => isAdopted('Adopted')}
+      >Adopted
+      </button>
       {isLoading ? (
           <p>Loading Pets...</p>
         ) : error ? (
           <p>{error}</p>
+          
         ) : filteredPets.length > 0 ? (
           filteredPets.map(pet => (
             <PetCard
               key={pet.id}
+              id={pet.id}
               breed={pet.attributes.name}
               description={pet.attributes.description}
               age={pet.attributes.life.min}
