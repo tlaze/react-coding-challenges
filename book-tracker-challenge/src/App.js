@@ -17,8 +17,11 @@ function App() {
     const fetchData = async() => {
       try{
         const response = await fetch("https://openlibrary.org/search.json?q=javascript");
-        const data = await response.json();;
-        setBooks(data.docs)
+        const data = await response.json();
+        setBooks(data.docs.map(book=>({
+          ...book,
+          read: false,
+        })))
       }
       catch(err){
         console.error("Error", err)
@@ -40,8 +43,15 @@ function App() {
   // Each time books or search input changes the books get filtered based on the
   // search input
   const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchInput.toLowerCase())
-  )
+    book.title.toLowerCase().includes(searchInput.toLowerCase()))
+
+  // When user clicks on not read button it updates to read
+  const addToReadList = (id) =>{
+    const updatedBooks = books.map(book =>
+      book.key === id ? { ...book, read:true} : book
+    )
+    setBooks(updatedBooks)
+  }
 
   return (
     <div className="App">
@@ -57,10 +67,13 @@ function App() {
       ): filteredBooks.length > 0 ? (
         filteredBooks.map(book =>
           <BookCard
-            key={book.id}
+            key={book.key}
+            id={book.key}
             author={book.author_name}
             title={book.title}
             year_published={book.first_publish_year}
+            read={book.read}
+            onRead={addToReadList}
             />
         )
       ): (
