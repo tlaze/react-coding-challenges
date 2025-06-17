@@ -16,7 +16,10 @@ function App() {
         //Had to use a different api service. Previous one is out of date
         const response = await fetch("https://dogapi.dog/api/v2/breeds");
         const data = await response.json();
-        setPets(data.data)
+        setPets(data.data.map(pet => ({
+          ...pet,
+          adopted:false
+        })))
         console.log(data.data)
       }
       catch(err){
@@ -33,6 +36,13 @@ function App() {
   const filteredPets = pets.filter(pet => 
     pet.attributes.name.toLowerCase().includes(input.toLowerCase())
   )
+
+  const adopt = (id) => {
+    const updatedPets = pets.map(pet =>
+      pet.id === id ? { ...pet, adopted:true} : pet 
+    );
+    setPets(updatedPets)
+  }
   return (
     <div className="App">
       <FilterBar
@@ -50,6 +60,8 @@ function App() {
               breed={pet.attributes.name}
               description={pet.attributes.description}
               age={pet.attributes.life.min}
+              adopted={pet.adopted}
+              onAdopt={adopt}
             />
           ))
         ) : (
