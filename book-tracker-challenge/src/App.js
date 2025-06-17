@@ -19,9 +19,14 @@ function App() {
       try{
         const response = await fetch("https://openlibrary.org/search.json?q=javascript");
         const data = await response.json();
+        
+        const storedBooks = JSON.parse(localStorage.getItem("books")) || [];
+
+        console.log(storedBooks)
+
         setBooks(data.docs.map(book=>({
           ...book,
-          read: false,
+          read: storedBooks.includes((book.key)),
         })))
       }
       catch(err){
@@ -57,6 +62,9 @@ function App() {
       book.key === id ? { ...book, read:true} : book
     )
     setBooks(updatedBooks)
+
+    const storedBooks = updatedBooks.filter(book => book.read).map(book => book.key);
+    localStorage.setItem("books", JSON.stringify(storedBooks))
   }
 
   return (
