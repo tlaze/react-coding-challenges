@@ -4,6 +4,8 @@ import FilterBar from './components/FilterBar';
 import type { Movie } from './types/index';
 import { Box, FormControl, Typography, InputLabel, Select, MenuItem } from '@mui/material';
 
+const STORAGE_KEY = 'saved-movies';
+
 function App() {
 
   const [movies, setMovies] = useState<Movie[]>([])
@@ -16,13 +18,35 @@ function App() {
   const api_key = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
+    const storedMovies = localStorage.getItem(STORAGE_KEY) || '[]';
+
+    try{
+      setMovies(JSON.parse(storedMovies));
+    }
+    catch{
+      localStorage.removeItem(STORAGE_KEY)
+      setMovies([])
+    }
+    finally{
+      setIsLoading(false)
+    }
+  },[]);
+
+  useEffect(() => {
+    if(!isLoading){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(movies));
+    }
+  },[movies,isLoading])
+
+  useEffect(() => {
+
     const fetchMovies = async () => {
       try{
-
         const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`);
         const data = await response.json();
         // console.log(data.results)
         setMovies(data.results)
+        
       }
       catch(error){
         console.error("Error: ", error)
@@ -33,7 +57,8 @@ function App() {
       }
     }
     fetchMovies();
-  },[])
+  },[api_key])
+
 
   const displayedMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(filterMovies.toLowerCase()))
