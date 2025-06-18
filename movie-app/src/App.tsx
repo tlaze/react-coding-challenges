@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import MovieGrid from './components/MovieGrid';
 import FilterBar from './components/FilterBar';
 import type { Movie } from './types/index';
+import { Box, Typography } from '@mui/material';
 
 function App() {
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [filterMovies, setFilterMovies] = useState('');
 
   const api_key = import.meta.env.VITE_API_KEY;
 
@@ -31,13 +33,45 @@ function App() {
     fetchMovies();
   },[])
 
-  if (isLoading) return <p>Loading Movies...</p>
-  if (error) return <p>Error: {error}</p>
+  const displayedMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(filterMovies.toLowerCase()))
+
+  if (isLoading) return 
+  if (error) return 
 
   return (
     <>
-      <FilterBar/>
-      {movies.length > 0 ? <MovieGrid movies={movies}/> : <p>No movies available.</p>}
+      <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          minWidth: '100vh',
+          }}
+        >
+        <Box component="header" sx={{ 
+            p:2,
+            display:'flex',
+            justifyContent: 'center',
+          }}>
+          <FilterBar value={filterMovies} onChange={(e)=> setFilterMovies(e.target.value)}/>
+        </Box>
+
+        <Box sx={{
+          display:'flex',
+          justifyContent:'center'
+        }}
+          >
+          {isLoading ? (
+            <Typography>Loading Movies...</Typography>
+          ) : error ? (
+            <Typography color="error">Error: {error}</Typography>
+          ) : displayedMovies.length > 0 ?(
+            <MovieGrid movies={displayedMovies}/>
+          ) : (
+            <Typography>No movies available.</Typography>
+          )}
+        </Box>
+      </Box>
     </>
   )
 }
