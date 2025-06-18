@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import MovieGrid from './components/MovieGrid';
 import FilterBar from './components/FilterBar';
 import type { Movie } from './types/index';
-import { Box, Typography } from '@mui/material';
+import { Box, FormControl, Typography, InputLabel, Select, MenuItem } from '@mui/material';
 
 function App() {
 
@@ -10,6 +10,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [filterMovies, setFilterMovies] = useState('');
+  const [sortBy, setSortBy] = useState<'title' | 'date'>('title');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const api_key = import.meta.env.VITE_API_KEY;
 
@@ -36,8 +38,16 @@ function App() {
   const displayedMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(filterMovies.toLowerCase()))
 
-  if (isLoading) return 
-  if (error) return 
+  const sortedMovies = [...displayedMovies].sort((a, b) => {
+  let compare = 0;
+  if (sortBy === 'title') {
+    compare = a.title.localeCompare(b.title);
+  } 
+  else {
+    compare = new Date(a.release_date).getTime() - new Date(b.release_date).getTime();
+  }
+  return sortOrder === 'asc' ? compare : -compare;
+});
 
   return (
     <>
@@ -56,6 +66,24 @@ function App() {
           <FilterBar value={filterMovies} onChange={(e)=> setFilterMovies(e.target.value)}/>
         </Box>
 
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent:'center'}}>
+          <FormControl size="small">
+            <InputLabel>Sort By</InputLabel>
+            <Select value={sortBy} label="Sort By" onChange={e => setSortBy(e.target.value as 'title' | 'date')}>
+              <MenuItem value='title'>Title</MenuItem>
+              <MenuItem value='date'>Release Date</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small">
+            <InputLabel>Order</InputLabel>
+              <Select value={sortOrder} label="Order" onChange={e => setSortOrder(e.target.value as 'asc' | 'desc')}>
+                <MenuItem value="asc">Ascending</MenuItem>
+                <MenuItem value="desc">Descending</MenuItem>
+              </Select>
+          </FormControl>
+        </Box>
+
         <Box sx={{
           display:'flex',
           justifyContent:'center'
@@ -66,7 +94,7 @@ function App() {
           ) : error ? (
             <Typography color="error">Error: {error}</Typography>
           ) : displayedMovies.length > 0 ?(
-            <MovieGrid movies={displayedMovies}/>
+            <MovieGrid movies={sortedMovies}/>
           ) : (
             <Typography>No movies available.</Typography>
           )}

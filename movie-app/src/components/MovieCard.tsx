@@ -14,7 +14,7 @@ function MovieCard( { movie } : MovieCardProps){
             />
             <CardContent sx={{ textAlign:'center'}}>
                 <Typography variant="h6">{movie.title}</Typography>
-                <Typography variant="subtitle2">{new Date (movie.release_date).getFullYear()}</Typography>
+                <Typography variant="subtitle2">{movie.release_date}</Typography>
                 <Typography variant="body2">{movie.overview.length > 100 ? movie.overview.slice(0,100) + '...' : movie.overview}</Typography>
                 
             </CardContent>
